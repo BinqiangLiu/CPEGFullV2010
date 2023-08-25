@@ -47,6 +47,10 @@ llm = HuggingFaceHub(repo_id=repo_id,
                                    "top_p":0.95, "eos_token_id":49155})
 
 chain = load_qa_chain(llm=llm, chain_type="stuff")
+
+def generate_random_string(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))  
     
 texts=""
 initial_embeddings=""
