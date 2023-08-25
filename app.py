@@ -105,16 +105,16 @@ with st.sidebar:
 
 user_question = st.text_input("Enter your question & query CPEG (EN):")
 
-if question !="":         
-    #st.write("Your question: "+question)
-    print("Your question: "+question)
+if user_question !="":         
+    #st.write("Your question: "+user_question)
+    print("Your question: "+user_question)
     print()
 else:
 #    st.write("Please enter your question first.")
     print("Please enter your question first.")
     st.stop()
 
-q_embedding=get_embeddings(question)
+q_embedding=get_embeddings(user_question)
 final_q_embedding = torch.FloatTensor(q_embedding)
 
 from sentence_transformers.util import semantic_search
@@ -147,7 +147,7 @@ with st.spinner("AI Thinking...Please wait a while to Cheers!"):
         file.write(final_page_contents)
     loader = TextLoader(i_file_path, encoding="utf-8")
     loaded_documents = loader.load()
-    temp_ai_response=chain.run(input_documents=loaded_documents, question=question)
+    temp_ai_response=chain.run(input_documents=loaded_documents, question=user_question)
     final_ai_response=temp_ai_response.partition('<|end|>')[0]
     i_final_ai_response = final_ai_response.replace('\n', '')
     print("AI Response:")
