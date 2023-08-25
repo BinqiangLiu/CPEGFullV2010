@@ -29,7 +29,7 @@ css_file = "main.css"
 with open(css_file) as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
-file_path = os.path.join(os.getcwd(), "CPEGFullV2010.pdf")
+file_path = os.path.join(os.getcwd(), "CPEGFullV2010EN.pdf")
 
 texts=""
 
