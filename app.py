@@ -21,22 +21,53 @@ model_id = os.environ.get('model_id')
 hf_token = os.environ.get('hf_token')
 repo_id = os.environ.get('repo_id')
 
-st.set_page_config(page_title="China Patent Examination Guideline AI Assistant")
-st.subheader("Your China Patent Examination Guideline AI Assistant")
-st.write('---')
+st.set_page_config(page_title="CPEG (EN) AI Chat Assistant")
+st.subheader("China Patent Examination Guideline (EN) AI Chat Assistant")
+#st.write('---')
 
 css_file = "main.css"
 with open(css_file) as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
-file_path = os.path.join(os.getcwd(), "CPEGFullV2010EN.pdf")
+api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
+headers = {"Authorization": f"Bearer {hf_token}"}
 
+def get_embeddings(input_str_texts):
+    response = requests.post(api_url, headers=headers, json={"inputs": input_str_texts, "options":{"wait_for_model":True}})
+    return response.json()
+    
 texts=""
+initial_embeddings=""
+db_embeddings = ""
+i_file_path=""
+file_path = ""
 
 with st.sidebar:
     st.subheader("China Patent Examination Guideline (CPEG) AI ChatApp")
-    st.write("Caution: This app is built based on the English Version of V2010 CPEG. For most recent version, please refer to the CNIPA official source.")
-    st.write("Disclaimer: This app is only for information purpose. NO liability could be claimed against whoever associated with this app in any manner. User should consult a qualified legal professional for legal advice.")
+    option = st.sidebar.radio("Select the content to Chat:", ("TOC: Table of Contents", "Part I: Preliminary Examination", "Part II: Substantive Examination", "Part III: Examination of International Applications Entering the National Phase", "Part IV: Examination of Requests for Reexamination and for Invalidation", "Part V: Processing of Patent Applications and Procedural Matters", "Index", "Annexes"))
+    if option == "TOC: Table of Contents":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENContents.pdf")
+    elif option == "Part I: Preliminary Examination":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENPartI.pdf")
+    elif option == "Part II: Substantive Examination":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENPartII.pdf")
+    elif option == "Part III: Examination of International Applications Entering the National Phase":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENPartIII.pdf")
+    elif option == "Part IV: Examination of Requests for Reexamination and for Invalidation":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENPartIV.pdf")
+    elif option == "Part V: Processing of Patent Applications and Procedural Matters":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENPartV.pdf")
+    elif option == "Index":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENIndex.pdf")
+    elif option == "Annexes":
+        file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENAnnexes.pdf")
+    else:
+        st.write("Choose which part to Chat first.")
+        st.stop()
+    st.write("Caution: This app is built based on the English Version of CPEG (2010). For most recent version, please refer to the CNIPA official source.")
+    st.write("Disclaimer: This app is for information purpose only. NO liability could be claimed against whoever associated with this app in any manner. User should consult a qualified legal professional for legal advice.")
+    st.subheader("Enjoy Chatting!")    
+  
     try:        
         with st.spinner("Preparing materials for you..."):
             doc_reader = PdfReader(file_path)
@@ -45,8 +76,8 @@ with st.sidebar:
                 text = page.extract_text()
                 if text:
                     raw_text += text
-#            text_splitter = CharacterTextSplitter(        
-            text_splitter = RecursiveCharacterTextSplitter(                 
+#            text_splitter = RecursiveCharacterTextSplitter(        
+            text_splitter = CharacterTextSplitter(        
                 separator = "\n",
                 chunk_size = 1000,
                 chunk_overlap  = 200, #striding over the text
@@ -54,9 +85,8 @@ with st.sidebar:
             )
             temp_texts = text_splitter.split_text(raw_text)
             texts = temp_texts
-            st.write("Materials ready.")
-            st.write("Please wait a few seconds.")
-            st.write("You are just about to chat with CPEG-English!")
+            initial_embeddings=get_embeddings(texts)
+            db_embeddings = torch.FloatTensor(initial_embeddings) 
     except Exception as e:
         st.write("Unknow error.")
         print("Unknow error.")
