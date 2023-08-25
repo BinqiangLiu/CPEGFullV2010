@@ -45,7 +45,8 @@ with st.sidebar:
                 text = page.extract_text()
                 if text:
                     raw_text += text
-            text_splitter = CharacterTextSplitter(        
+#            text_splitter = CharacterTextSplitter(        
+            text_splitter = RecursiveCharacterTextSplitter(                 
                 separator = "\n",
                 chunk_size = 1000,
                 chunk_overlap  = 200, #striding over the text
