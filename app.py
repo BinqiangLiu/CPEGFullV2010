@@ -12,14 +12,6 @@ import torch
 import os
 from dotenv import load_dotenv
 load_dotenv()
-HUGGINGFACEHUB_API_TOKEN = os.getenv('HUGGINGFACEHUB_API_TOKEN')
-model_id = os.getenv('model_id')
-hf_token = os.getenv('hf_token')
-repo_id = os.getenv('repo_id')
-HUGGINGFACEHUB_API_TOKEN = os.environ.get('HUGGINGFACEHUB_API_TOKEN')
-model_id = os.environ.get('model_id')
-hf_token = os.environ.get('hf_token')
-repo_id = os.environ.get('repo_id')
 
 st.set_page_config(page_title="CPEG (EN) AI Chat Assistant")
 st.subheader("China Patent Examination Guideline (EN) AI Chat Assistant")
@@ -29,12 +21,30 @@ css_file = "main.css"
 with open(css_file) as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
+HUGGINGFACEHUB_API_TOKEN = os.getenv('HUGGINGFACEHUB_API_TOKEN')
+model_id = os.getenv('model_id')
+hf_token = os.getenv('hf_token')
+repo_id = os.getenv('repo_id')
+HUGGINGFACEHUB_API_TOKEN = os.environ.get('HUGGINGFACEHUB_API_TOKEN')
+model_id = os.environ.get('model_id')
+hf_token = os.environ.get('hf_token')
+repo_id = os.environ.get('repo_id')
+
 api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
 headers = {"Authorization": f"Bearer {hf_token}"}
 
 def get_embeddings(input_str_texts):
     response = requests.post(api_url, headers=headers, json={"inputs": input_str_texts, "options":{"wait_for_model":True}})
     return response.json()
+
+llm = HuggingFaceHub(repo_id=repo_id,
+                     model_kwargs={"min_length":100,
+                                   "max_new_tokens":1024, "do_sample":True,
+                                   "temperature":0.1,
+                                   "top_k":50,
+                                   "top_p":0.95, "eos_token_id":49155})
+
+chain = load_qa_chain(llm=llm, chain_type="stuff")
     
 texts=""
 initial_embeddings=""
@@ -66,8 +76,7 @@ with st.sidebar:
         st.stop()
     st.write("Caution: This app is built based on the English Version of CPEG (2010). For most recent version, please refer to the CNIPA official source.")
     st.write("Disclaimer: This app is for information purpose only. NO liability could be claimed against whoever associated with this app in any manner. User should consult a qualified legal professional for legal advice.")
-    st.subheader("Enjoy Chatting!")    
-  
+    st.subheader("Enjoy Chatting!")      
     try:        
         with st.spinner("Preparing materials for you..."):
             doc_reader = PdfReader(file_path)
@@ -92,21 +101,10 @@ with st.sidebar:
         print("Unknow error.")
         st.stop()
 
-api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
-headers = {"Authorization": f"Bearer {hf_token}"}
-
-def get_embeddings(input_str_texts):
-    response = requests.post(api_url, headers=headers, json={"inputs": input_str_texts, "options":{"wait_for_model":True}})
-    return response.json()
-
-initial_embeddings=get_embeddings(texts)
-
-db_embeddings = torch.FloatTensor(initial_embeddings) 
-
-question = st.text_input("Enter any question on NEGOTIATION!")
+user_question = st.text_input("Enter your question & query CPEG (EN):")
 
 if question !="":         
-    st.write("Your question: "+question)
+    #st.write("Your question: "+question)
     print("Your question: "+question)
     print()
 else:
@@ -136,17 +134,8 @@ print()
 final_page_contents = temp_page_contents.replace('\\n', '') 
 print(final_page_contents)
 print()
-print("AI Working...Please wait a while...Cheers!")
+print("AI Thinking...Please wait a while to Cheers!")
 print()
-
-llm = HuggingFaceHub(repo_id=repo_id,
-                     model_kwargs={"min_length":100,
-                                   "max_new_tokens":1024, "do_sample":True,
-                                   "temperature":0.1,
-                                   "top_k":50,
-                                   "top_p":0.95, "eos_token_id":49155})
-
-chain = load_qa_chain(llm=llm, chain_type="stuff")
 
 with st.spinner("AI Working...Please wait a while to Cheers!"):
     file_path = "tempfile.txt"
