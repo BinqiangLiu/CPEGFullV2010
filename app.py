@@ -10,6 +10,8 @@ from pathlib import Path
 from time import sleep
 import torch
 import os
+import random
+import string
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -137,21 +139,20 @@ print()
 print("AI Thinking...Please wait a while to Cheers!")
 print()
 
-with st.spinner("AI Working...Please wait a while to Cheers!"):
-    file_path = "tempfile.txt"
-    with open(file_path, "w", encoding="utf-8") as file:
+random_string = generate_random_string(10)
+
+with st.spinner("AI Thinking...Please wait a while to Cheers!"):
+    i_file_path = random_string + ".txt"
+    with open(i_file_path, "w", encoding="utf-8") as file:
         file.write(final_page_contents)
-
-    loader = TextLoader("tempfile.txt", encoding="utf-8")
+    loader = TextLoader(i_file_path, encoding="utf-8")
     loaded_documents = loader.load()
-
     temp_ai_response=chain.run(input_documents=loaded_documents, question=question)
     final_ai_response=temp_ai_response.partition('<|end|>')[0]
     i_final_ai_response = final_ai_response.replace('\n', '')
     print("AI Response:")
     print(i_final_ai_response)
     print("Have more questions? Go ahead and continue asking your AI assistant : )")
-
     st.write("AI Response:")
     st.write(i_final_ai_response)
 #    st.write("---")
