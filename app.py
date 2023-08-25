@@ -21,8 +21,8 @@ model_id = os.environ.get('model_id')
 hf_token = os.environ.get('hf_token')
 repo_id = os.environ.get('repo_id')
 
-st.set_page_config(page_title="Your Negotiation AI Assistant")
-st.subheader("Your Negotiation AI Assistant")
+st.set_page_config(page_title="China Patent Examination Guideline AI Assistant")
+st.subheader("Your China Patent Examination Guideline AI Assistant")
 st.write('---')
 
 css_file = "main.css"
@@ -56,7 +56,7 @@ with st.sidebar:
             texts = temp_texts
             st.write("Materials ready.")
             st.write("Please wait a few seconds.")
-            st.write("You are just about to start your NEGOTIATION journey!")
+            st.write("You are just about to chat with CPEG-English!")
     except Exception as e:
         st.write("Unknow error.")
         print("Unknow error.")
