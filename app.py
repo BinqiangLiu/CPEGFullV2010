@@ -35,7 +35,7 @@ texts=""
 
 with st.sidebar:
     st.subheader("China Patent Examination Guideline (CPEG) AI ChatApp")
-    st.write("Caution: This app is built based on the English Version of V2010 CPEG. For most recent version, please refer to the CNIPA official source."}
+    st.write("Caution: This app is built based on the English Version of V2010 CPEG. For most recent version, please refer to the CNIPA official source.")
     st.write("Disclaimer: This app is only for information purpose. NO liability could be claimed against whoever associated with this app in any manner. User should consult a qualified legal professional for legal advice.")
     try:        
         with st.spinner("Preparing materials for you..."):
