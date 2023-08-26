@@ -57,7 +57,6 @@ initial_embeddings=""
 db_embeddings = ""
 i_file_path=""
 file_path = ""
-#profile_image = "USinoIP.png"
 wechat_image= "WeChatCode.jpg"
 
 st.sidebar.markdown(
@@ -87,8 +86,6 @@ st.markdown(
 )
 
 with st.sidebar:
-#    st.image(profile_image)
-#    st.subheader("China Patent Examination Guideline (CPEG) AI ChatApp")
     option = st.sidebar.selectbox("Select the content to Chat:", ("TOC: Table of Contents", "Part I: Preliminary Examination", "Part II: Substantive Examination", "Part III: Examination of International Applications Entering the National Phase", "Part IV: Examination of Requests for Reexamination and for Invalidation", "Part V: Processing of Patent Applications and Procedural Matters", "Index", "Annexes"))
     if option == "TOC: Table of Contents":
         file_path = os.path.join(os.getcwd(), "CPEGFullV2010ENContents.pdf")
