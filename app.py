@@ -114,8 +114,6 @@ with st.sidebar:
     st.subheader("Enjoy Chatting!")
     st.sidebar.markdown("Contact: [binqiang.liu@foxmail.com](mailto:binqiang.liu@foxmail.com)")
     st.sidebar.markdown('WeChat: <span class="blue-underline">pat2win</span>, or scan the code below.', unsafe_allow_html=True)
-#    st.sidebar.image(wechat_image, caption='', use_column_width=True)
-#    st.image(wechat_image, caption=None, width=None, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
     st.image(wechat_image)
     st.sidebar.markdown('<span class="blue-underline">Life Enhancing with AI.</span>', unsafe_allow_html=True)      
     try:        
