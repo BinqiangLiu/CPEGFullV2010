@@ -109,7 +109,7 @@ with st.sidebar:
     st.write("Caution: This app is built based on the English Version of CPEG (2010). For most recent version, please refer to the CNIPA official source.")
     st.write("Disclaimer: This app is for information purpose only. NO liability could be claimed against whoever associated with this app in any manner. User should consult a qualified legal professional for legal advice.")
     st.subheader("Enjoy Chatting!")
-    st.sidebar.markdown("Contact: [binqiang.liu@foxmail.com](mailto:binqiang.liu@foxmail.com)")
+    st.sidebar.markdown("Contact: [aichat101@foxmail.com](mailto:aichat101@foxmail.com)")
     st.sidebar.markdown('WeChat: <span class="blue-underline">pat2win</span>, or scan the code below.', unsafe_allow_html=True)
     st.image(wechat_image)
     st.sidebar.markdown('<span class="blue-underline">Life Enhancing with AI.</span>', unsafe_allow_html=True)      
@@ -173,7 +173,7 @@ print()
 print("AI Thinking...Please wait a while to Cheers!")
 print()
 
-random_string = generate_random_string(10)
+random_string = generate_random_string(20)
 
 with st.spinner("AI Thinking...Please wait a while to Cheers!"):
     i_file_path = random_string + ".txt"
