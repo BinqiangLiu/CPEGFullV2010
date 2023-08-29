@@ -15,7 +15,7 @@ import string
 from dotenv import load_dotenv
 load_dotenv()
 
-st.set_page_config(page_title="CPEG (EN) AI Chat Assistant")
+st.set_page_config(page_title="CPEG (EN) AI Chat Assistant", layout="wide")
 st.subheader("China Patent Examination Guideline (EN) AI Chat Assistant")
 #st.write('---')
 
