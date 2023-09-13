@@ -188,5 +188,3 @@ with st.spinner("AI Thinking...Please wait a while to Cheers!"):
     print("Have more questions? Go ahead and continue asking your AI assistant : )")
     st.write("AI Response:")
     st.write(i_final_ai_response)
-#    st.write("---")
-#    st.write("Have more questions? Go ahead and continue asking your AI assistant : )")
