@@ -158,11 +158,7 @@ if user_question !="" and not user_question.strip().isspace() and not user_quest
     print()
 else:
     print("Please enter your question first.")
-    st.stop()   
-    
-for i in range(len(hits[0])):
-    print(texts[hits[0][i]['corpus_id']])
-    print()
+    st.stop()       
 
 page_contents = []
 for i in range(len(hits[0])):
