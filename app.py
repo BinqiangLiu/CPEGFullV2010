@@ -29,10 +29,10 @@ HUGGINGFACEHUB_API_TOKEN = os.getenv('HUGGINGFACEHUB_API_TOKEN')
 model_id = os.getenv('model_id')
 hf_token = os.getenv('hf_token')
 repo_id = os.getenv('repo_id')
-HUGGINGFACEHUB_API_TOKEN = os.environ.get('HUGGINGFACEHUB_API_TOKEN')
-model_id = os.environ.get('model_id')
-hf_token = os.environ.get('hf_token')
-repo_id = os.environ.get('repo_id')
+#HUGGINGFACEHUB_API_TOKEN = os.environ.get('HUGGINGFACEHUB_API_TOKEN')
+#model_id = os.environ.get('model_id')
+#hf_token = os.environ.get('hf_token')
+#repo_id = os.environ.get('repo_id')
 
 api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
 headers = {"Authorization": f"Bearer {hf_token}"}
@@ -177,10 +177,10 @@ with st.spinner("AI Thinking...Please wait a while to Cheers!"):
     loader = TextLoader(i_file_path, encoding="utf-8")
     loaded_documents = loader.load()
     temp_ai_response=chain.run(input_documents=loaded_documents, question=user_question)
-    final_ai_response=temp_ai_response.partition('<|end|>')[0]
-    i_final_ai_response = final_ai_response.replace('\n', '')
-    print("AI Response:")
-    print(i_final_ai_response)
-    print("Have more questions? Go ahead and continue asking your AI assistant : )")
+    #final_ai_response=temp_ai_response.partition('<|end|>')[0]
+    #i_final_ai_response = final_ai_response.replace('\n', '')
+    #print("AI Response:")
+    #print(i_final_ai_response)
+    #print("Have more questions? Go ahead and continue asking your AI assistant : )")
     st.write("AI Response:")
-    st.write(i_final_ai_response)
+    st.write(temp_ai_response)
