@@ -42,11 +42,11 @@ def get_embeddings(input_str_texts):
     return response.json()
 
 llm = HuggingFaceHub(repo_id=repo_id,
-                     model_kwargs={"min_length":100,
-                                   "max_new_tokens":1024, "do_sample":True,
+                     model_kwargs={"min_length":1024,
+                                   "max_new_tokens":5632, "do_sample":True,
                                    "temperature":0.1,
                                    "top_k":50,
-                                   "top_p":0.95, "eos_token_id":49155})
+                                   "top_p":0.95, "eos_token_id":49155}) 
 
 chain = load_qa_chain(llm=llm, chain_type="stuff")
 
